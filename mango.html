@@ -1,363 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mango Festival Seat Selection</title>
+  <title>Mango Festival - Seat Booking</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 10px;
-      background-color: #fffbe6;
-      color: #333;
+      background-color: #fff8e1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
     h2 {
       text-align: center;
       color: #d9903b;
     }
-
-    .layout {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      position: relative;
-    }
-
-    .table-group {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
+    .input-group, .radio-group, .layout, #confirmBtn {
       width: 100%;
+      max-width: 400px;
     }
-
-    .table {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .input-group {
+      margin: 10px 0;
     }
-
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="email"], input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+    }
+    .radio-group {
+      margin: 10px 0;
+    }
+    .layout {
+      margin-top: 20px;
+    }
+    .table-group {
+      margin-bottom: 20px;
+    }
     .table-label {
-      margin-bottom: 8px;
       font-weight: bold;
+      margin-bottom: 5px;
     }
-
     .seats {
       display: flex;
+      gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 5px;
     }
-
     .seat {
       width: 40px;
       height: 40px;
       background-color: #9be69b;
-      border: 2px solid #555;
-      border-radius: 8px;
+      border: 1px solid #333;
+      border-radius: 5px;
       text-align: center;
       line-height: 40px;
-      font-size: 16px;
       cursor: pointer;
     }
-
     .seat.selected {
       background-color: #6dbbff;
     }
-
     .seat.booked {
       background-color: #e66;
       cursor: not-allowed;
     }
-
-    .seat.final-selected {
-      background-color: red;
-      cursor: not-allowed;
-    }
-
-    .floor {
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
-    .confirm {
-      text-align: center;
-      margin-top: 20px;
-    }
-
     button {
+      margin-top: 20px;
       padding: 10px 20px;
       background-color: #ffa726;
       border: none;
       color: white;
-      font-size: 18px;
-      border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
     }
-
-    button:hover {
-      background-color: #fb8c00;
-    }
-
-    .input-group {
-      text-align: center;
-      margin: 20px;
-    }
-
-    .input-group input {
-      padding: 10px;
-      font-size: 16px;
-      margin-right: 10px;
-    }
-
-    .entrance {
-      position: absolute;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
-      font-size: 40px;
-      font-weight: bold;
-      color: #d9903b;
-      writing-mode: vertical-rl;
-    }
-
-    .serving-counter {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      font-size: 20px;
-      font-weight: bold;
-      color: #d9903b;
-      writing-mode: vertical-rl;
-    }
-
-    .confirmation-message {
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      color: #d9903b;
-      margin-top: 50px;
-    }
-
     .legend {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
       display: flex;
-      flex-direction: column;
-      gap: 5px;
-      font-size: 14px;
+      gap: 20px;
+      margin-top: 20px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
     }
-
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 5px;
+      font-size: 14px;
     }
-
     .legend-color {
       width: 20px;
       height: 20px;
-      border-radius: 4px;
       border: 1px solid #333;
     }
+    .green { background-color: #9be69b; }
+    .blue { background-color: #6dbbff; }
+    .red { background-color: #e66; }
   </style>
 </head>
 <body>
-<h2>🍋 Mango Festival - Choose Your Seat</h2>
+  <h2>🍋 Mango Festival - Seat Booking</h2>
 
-<!-- Primary Info Form -->
-<div class="input-group">
-  <label for="guestName">Primary Guest Name: </label>
-  <input type="text" id="guestName" required />
-</div>
-<div class="input-group">
-  <label for="guestPhone">Phone Number: </label>
-  <input type="text" id="guestPhone" required />
-</div>
-<div class="input-group">
-  <label for="guestEmail">Email: </label>
-  <input type="email" id="guestEmail" required />
-</div>
+  <div class="input-group">
+    <label for="guestName">Primary Guest Name:</label>
+    <input type="text" id="guestName" required />
+  </div>
+  <div class="input-group">
+    <label for="guestPhone">Phone Number:</label>
+    <input type="text" id="guestPhone" required />
+  </div>
+  <div class="input-group">
+    <label for="guestEmail">Email:</label>
+    <input type="email" id="guestEmail" required />
+  </div>
+  <div class="radio-group">
+    <label>Date Slot:</label>
+    <label><input type="radio" name="slot" value="17th May Lunch" required /> 17th May Lunch</label>
+    <label><input type="radio" name="slot" value="18th May Lunch" /> 18th May Lunch</label>
+    <label><input type="radio" name="slot" value="18th May Dinner" /> 18th May Dinner</label>
+  </div>
+  <div class="input-group">
+    <label for="numPeople">Number of People Attending:</label>
+    <input type="number" id="numPeople" min="1" required />
+  </div>
 
-<div class="input-group">
-  <label for="numPeople">Number of people attending: </label>
-  <input type="number" id="numPeople" min="1" required />
   <button onclick="showSeats()">Submit</button>
-</div>
 
-<!-- Seat Selection Layout -->
-<div class="layout" id="seatLayout" style="display:none;">
-  <div class="serving-counter">SERVING COUNTER</div>
-  <div class="entrance">ENTRANCE</div>
-  <div class="table-group" id="roundTables">
-    <div class="table">
-      <div class="table-label">Round Table 1</div>
-      <div class="seats">
-        <div class="seat" data-seat="RT1-1">1</div>
-        <div class="seat" data-seat="RT1-2">2</div>
-        <div class="seat" data-seat="RT1-3">3</div>
+  <div class="layout" id="seatLayout" style="display:none;">
+    <div class="table-group">
+      <div class="table-label">Round Tables (T1, T2)</div>
+      <div class="seats" id="roundSeats">
+        <div class="seat" data-seat="T1-1">T1-1</div>
+        <div class="seat" data-seat="T1-2">T1-2</div>
+        <div class="seat" data-seat="T1-3">T1-3</div>
+        <div class="seat" data-seat="T2-1">T2-1</div>
+        <div class="seat" data-seat="T2-2">T2-2</div>
+        <div class="seat" data-seat="T2-3">T2-3</div>
       </div>
     </div>
-    <div class="table">
-      <div class="table-label">Round Table 2</div>
-      <div class="seats">
-        <div class="seat" data-seat="RT2-1">1</div>
-        <div class="seat" data-seat="RT2-2">2</div>
-        <div class="seat" data-seat="RT2-3">3</div>
-      </div>
-    </div>
-  </div>
 
-  <div class="table-group" id="squareTables">
-    <div class="table">
-      <div class="table-label">Square Table 1</div>
-      <div class="seats">
-        <div class="seat" data-seat="ST1-1">1</div>
-        <div class="seat" data-seat="ST1-2">2</div>
+    <div class="table-group">
+      <div class="table-label">Square Tables (S1, S2, S3)</div>
+      <div class="seats" id="squareSeats">
+        <div class="seat" data-seat="S1-1">S1-1</div>
+        <div class="seat" data-seat="S1-2">S1-2</div>
+        <div class="seat" data-seat="S2-1">S2-1</div>
+        <div class="seat" data-seat="S2-2">S2-2</div>
+        <div class="seat" data-seat="S3-1">S3-1</div>
+        <div class="seat" data-seat="S3-2">S3-2</div>
       </div>
     </div>
-    <div class="table">
-      <div class="table-label">Square Table 2</div>
-      <div class="seats">
-        <div class="seat" data-seat="ST2-1">1</div>
-        <div class="seat" data-seat="ST2-2">2</div>
-      </div>
-    </div>
-    <div class="table">
-      <div class="table-label">Square Table 3</div>
-      <div class="seats">
-        <div class="seat" data-seat="ST3-1">1</div>
-        <div class="seat" data-seat="ST3-2">2</div>
-      </div>
-    </div>
-  </div>
 
-  <div class="table-group" id="floorSeating">
-    <div class="table">
+    <div class="table-group">
       <div class="table-label">Floor Seating</div>
-      <div class="seats floor">
-        <div class="seat" data-seat="FS-1">1</div>
-        <div class="seat" data-seat="FS-2">2</div>
-        <div class="seat" data-seat="FS-3">3</div>
-        <div class="seat" data-seat="FS-4">4</div>
+      <div class="seats" id="floorSeats">
+        <div class="seat" data-seat="F1">F1</div>
+        <div class="seat" data-seat="F2">F2</div>
+        <div class="seat" data-seat="F3">F3</div>
+        <div class="seat" data-seat="F4">F4</div>
       </div>
     </div>
+
+    <div class="table-group">
+      <div class="table-label">Ledge High Chairs</div>
+      <div class="seats" id="ledgeSeats">
+        <div class="seat" data-seat="L1">L1</div>
+        <div class="seat" data-seat="L2">L2</div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-color green"></div> Available</div>
+      <div class="legend-item"><div class="legend-color blue"></div> Selected</div>
+      <div class="legend-item"><div class="legend-color red"></div> Booked</div>
+    </div>
   </div>
-</div>
 
-<div class="confirm" id="confirmSelection">
-  <button id="confirmBtn" onclick="confirmSelection()" disabled>Confirm Selection</button>
-</div>
+  <button id="confirmBtn" onclick="confirmSelection()" style="display:none;">Confirm Selection</button>
 
-<div id="confirmationMessage" class="confirmation-message" style="display:none;">
-  Seats Confirmed! Thank you for your selection.
-</div>
+  <script>
+    let seats = document.querySelectorAll(".seat");
+    let numPeople = 0;
 
-<div class="legend">
-  <div class="legend-item"><div class="legend-color" style="background-color: #e66;"></div>Booked</div>
-  <div class="legend-item"><div class="legend-color" style="background-color: #9be69b;"></div>Available</div>
-  <div class="legend-item"><div class="legend-color" style="background-color: #6dbbff;"></div>Selected</div>
-</div>
-
-<script>
-  let seats = document.querySelectorAll(".seat");
-  let numPeopleInput = document.getElementById("numPeople");
-  let seatLayout = document.getElementById("seatLayout");
-  let roundTables = document.getElementById("roundTables");
-  let squareTables = document.getElementById("squareTables");
-  let floorSeating = document.getElementById("floorSeating");
-  let confirmationMessage = document.getElementById("confirmationMessage");
-  let confirmBtn = document.getElementById("confirmBtn");
-
-  let confirmedSeats = JSON.parse(localStorage.getItem('confirmedSeats')) || [];
-  let numPeople = 0;
-
-  function showSeats() {
-    numPeople = parseInt(numPeopleInput.value);
-    if (numPeople < 1) {
-      alert("Please enter a valid number of people (1 or more).");
-      return;
-    }
-
-    roundTables.style.display = "none";
-    squareTables.style.display = "none";
-    floorSeating.style.display = "none";
-
-    if (numPeople === 1) {
-      squareTables.style.display = "flex";
-    } else if (numPeople > 2) {
-      roundTables.style.display = "flex";
-      squareTables.style.display = "flex";
-      floorSeating.style.display = "flex";
-    }
-
-    seatLayout.style.display = "block";
-
-    seats.forEach(seat => {
-      seat.classList.remove("booked", "selected", "final-selected");
-      seat.addEventListener("click", toggleSeatSelection);
+    let bookedSeats = JSON.parse(localStorage.getItem("bookedSeats")) || [];
+    bookedSeats.forEach(id => {
+      let el = document.querySelector(`[data-seat='${id}']`);
+      if (el) el.classList.add("booked");
     });
-  }
 
-  function toggleSeatSelection(event) {
-    let seat = event.target;
-    if (seat.classList.contains("booked") || seat.classList.contains("final-selected")) {
-      return;
-    }
+    function showSeats() {
+      const guestName = document.getElementById("guestName").value.trim();
+      const guestPhone = document.getElementById("guestPhone").value.trim();
+      const guestEmail = document.getElementById("guestEmail").value.trim();
+      const slot = document.querySelector("input[name='slot']:checked");
+      numPeople = parseInt(document.getElementById("numPeople").value);
 
-    seat.classList.toggle("selected");
-    checkSelection();
-  }
+      const phoneRegex = /^\d{10}$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  function checkSelection() {
-    let selectedSeats = document.querySelectorAll(".seat.selected");
-    if (selectedSeats.length === numPeople) {
-      confirmBtn.disabled = false;
-    } else {
-      confirmBtn.disabled = true;
-    }
-  }
-
-  function confirmSelection() {
-    let selectedSeats = [];
-    seats.forEach(seat => {
-      if (seat.classList.contains("selected")) {
-        seat.classList.add("final-selected");
-        selectedSeats.push(seat.getAttribute("data-seat"));
-        seat.classList.remove("selected");
-        seat.classList.add("booked");
+      if (!guestName || !guestPhone || !guestEmail || !slot || isNaN(numPeople) || numPeople < 1) {
+        alert("All fields are mandatory. Please fill them correctly.");
+        return;
       }
+
+      if (!phoneRegex.test(guestPhone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return;
+      }
+
+      if (!emailRegex.test(guestEmail)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      document.getElementById("seatLayout").style.display = "block";
+      document.getElementById("confirmBtn").style.display = "inline-block";
+    }
+
+    document.querySelectorAll(".seat").forEach(seat => {
+      seat.addEventListener("click", () => {
+        if (seat.classList.contains("booked")) return;
+        seat.classList.toggle("selected");
+
+        let selectedSeats = document.querySelectorAll(".seat.selected");
+        if (selectedSeats.length > numPeople) {
+          seat.classList.remove("selected");
+        }
+      });
     });
 
-    if (selectedSeats.length === numPeople) {
-      confirmedSeats = [...confirmedSeats, ...selectedSeats];
-      localStorage.setItem('confirmedSeats', JSON.stringify(confirmedSeats));
+    function confirmSelection() {
+      let selectedSeats = Array.from(document.querySelectorAll(".seat.selected")).map(seat => seat.dataset.seat);
+      if (selectedSeats.length !== numPeople) {
+        alert(`Please select exactly ${numPeople} seats.`);
+        return;
+      }
 
-      // Prepare the message to send via WhatsApp
-      let guestName = document.getElementById('guestName').value;
-      let guestPhone = document.getElementById('guestPhone').value;
-      let guestEmail = document.getElementById('guestEmail').value;
-      let seatDetails = selectedSeats.join(", ");
-      
-      let message = `Hello, I would like to confirm my seat reservation for the Mango Festival.\n\nName: ${guestName}\nPhone: ${guestPhone}\nEmail: ${guestEmail}\nSeats: ${seatDetails}`;
-      
-      // WhatsApp URL format
-      let whatsappUrl = `https://wa.me/9853437595?text=${encodeURIComponent(message)}`;
-      
-      // Open WhatsApp link (user needs to send the message manually)
-      window.open(whatsappUrl, '_blank');
+      const guestName = document.getElementById("guestName").value.trim();
+      const guestPhone = document.getElementById("guestPhone").value.trim();
+      const guestEmail = document.getElementById("guestEmail").value.trim();
+      const slot = document.querySelector("input[name='slot']:checked").value;
 
-      // Show confirmation message on the page
-      confirmationMessage.style.display = "block";
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
-    } else {
-      alert(`Please select exactly ${numPeople} seat(s).`);
+      const bookingData = {
+        guestName,
+        guestPhone,
+        guestEmail,
+        slot,
+        selectedSeats,
+      };
+
+      alert(`Booking confirmed! We'll send a confirmation shortly.`);
+
+      // Update local storage with booked seats
+      bookedSeats = [...bookedSeats, ...selectedSeats];
+      localStorage.setItem("bookedSeats", JSON.stringify(bookedSeats));
+
+      // Send booking data to Google Sheets via Apps Script (write your Apps Script Web App URL here)
+      fetch('https://script.google.com/macros/s/AKfycbwsRprYJC6GZ-LBGrLy4QHHSDGLXRgrYRda1yMvXC_jJTVFceTDyL44OoPRR3WNeeE5Gg/exec', {
+        method: 'POST',
+        body: JSON.stringify(bookingData),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => console.log('Success:', data))
+      .catch(error => console.error('Error:', error));
     }
-  }
-</script>
+  </script>
 </body>
 </html>
